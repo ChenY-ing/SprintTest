@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    可以用abstract=true指定为模板，模板不能不实例化只能被继承-->
+<!--    如果一个bean没有指定Class属性，那么他必须是一个抽象bean-->
+    <bean id="carmodel" abstract="true"  class="com.bdqn.util.Car" ></bean>
+    <bean parent="carmodel" id="car1" p:name="奥迪" p:type="A6" scope="prototype"></bean>
+    <bean parent="carmodel"  id="car2" p:name="奔驰" p:type="C200"></bean>
+<!--    <bean class="com.bdqn.util.Car" id="car2" p:name="奔驰" p:type="C200"></bean>-->
+<!--    autowire=byName 根据bean的Id名字和类的getter,setter方法的名字匹配-->
+<!--    用depends-on属性指定前置依赖，被依赖的bean会先创建出来，可以同时依赖多个bean，用逗号或空格配置-->
+<!--    通过scope属性设置Bean的作用域，默认是singleton单例，prototype是每次创建新实例-->
+<!--    单例Bean的示例会在容器初始化时被创建出来-->
+    <bean class="com.bdqn.util.Person" id="person" depends-on="car2,car1" p:car-ref="car2" scope="prototype"></bean>
+<!--    使用property-placeholde属性指定外部的属性配置文件-->
+<!--    通过${属性名}的方式来获取外部属性配置文件里的值-->
+<!--    通过 <props> <prop key="uname">${uname}</prop> </props> 给Properties类属性赋值-->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+    <bean class="com.bdqn.util.DB" id="db" p:driver="${driver}" p:password="${pwd}" p:url="${url}" p:userName="${uname}">
+       <property name="properties">
+           <props>
+               <prop key="uname">${uname}</prop>
+               <prop key="pwd">${pwd}</prop>
+               <prop key="url">${url}</prop>
+               <prop key="driver">${driver}</prop>
+           </props>
+       </property>
+    </bean>
+</beans>
