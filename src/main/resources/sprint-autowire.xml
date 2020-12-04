@@ -2,12 +2,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation  ="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 <!--    可以用abstract=true指定为模板，模板不能不实例化只能被继承-->
 <!--    如果一个bean没有指定Class属性，那么他必须是一个抽象bean-->
+<!--    可以试用Spel表达式来给Bean动态赋值，语法是#{}，里面可以用java的常用语法-->
+<!--    使用Spel表达式调用静态属性和方法时，要使用T（全类名）.静态属性或方法 来调用-->
+<!--    配置Bean的后置处理器，给全部的Bean添加了后置处理，不需要Id属性，要实现BeanPostProcessor接口-->
+    <bean class="com.bdqn.util.MyBeanProcessor"></bean>
+
+
     <bean id="carmodel" abstract="true"  class="com.bdqn.util.Car" ></bean>
-    <bean parent="carmodel" id="car1" p:name="奥迪" p:type="A6" scope="prototype"></bean>
-    <bean parent="carmodel"  id="car2" p:name="奔驰" p:type="C200"></bean>
+    <bean parent="carmodel" id="car1" p:name="奥迪" p:type="A6" init-method="init" destroy-method="destroy">
+<!--        <property name="name"><value><![CDATA[<奥迪>]]></value></property>-->
+    </bean>
+    <bean parent="carmodel"  id="car2"
+          p:name="奔驰" p:type="C200" p:speed="#{T(java.lang.Math).PI}"></bean>
 <!--    <bean class="com.bdqn.util.Car" id="car2" p:name="奔驰" p:type="C200"></bean>-->
 <!--    autowire=byName 根据bean的Id名字和类的getter,setter方法的名字匹配-->
 <!--    用depends-on属性指定前置依赖，被依赖的bean会先创建出来，可以同时依赖多个bean，用逗号或空格配置-->

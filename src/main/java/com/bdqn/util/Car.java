@@ -3,6 +3,23 @@ package com.bdqn.util;
 public class Car {
     private  String name;
     private String type;
+    private double speed;
+
+    public void init(){
+        System.out.println("Car Init()");
+    }
+
+    public  void destroy(){
+        System.out.println("Car destroy()");
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
 
     public Car() {
         System.out.println("Car 被构造了");
@@ -18,6 +35,7 @@ public class Car {
         return "Car{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", speed=" + speed +
                 '}';
     }
 

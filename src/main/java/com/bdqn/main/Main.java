@@ -2,6 +2,7 @@ package com.bdqn.main;
 
 import com.bdqn.dao.StudentDaoImpl;
 import com.bdqn.service.StudentServiceImpl;
+import com.bdqn.util.Car;
 import com.bdqn.util.DB;
 import com.bdqn.util.Person;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +17,11 @@ public class Main {
 //        Person person = ctx.getBean(Person.class);
 
 //        System.out.println(person);
+
+        Car car2= (Car) ctx.getBean("car1");
+        System.out.println(car2);
+
+        ((ClassPathXmlApplicationContext)ctx).close();
 
     }
 }
